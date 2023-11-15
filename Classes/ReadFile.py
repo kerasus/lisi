@@ -19,7 +19,8 @@ class LifFileReader:
         # # z -> 0
         # # t -> 0, 171
         # # c -> 0, 1, 2
-        specificItem = img_0.get_frame(z=0, t=0, c=0)
+#         specificItem = img_0.get_frame(z=0, t=0, c=0)
+#         specificItem.show()
         # # Iterate over different items
 #         frame_list   = [i for i in img_0.get_iter_t(c=0, z=0)]
         frame_list   = [{'image':self.get_rgb_array(x), 'frame':i} for i,x in enumerate(img_0.get_iter_t(c=0, z=0))]
@@ -37,6 +38,17 @@ class LifFileReader:
         # # print(channel_list)
 
         return frame_list
+
+    def get_specific_item_image (self, z=0, t=0, c=0):
+        new = LifFile(self.file_path)
+        # Access a specific image directly
+        img_0 = new.get_image(0) # 0 - 1
+        # # Access a specific item
+        # # z -> 0
+        # # t -> 0, 171
+        # # c -> 0, 1, 2
+        specificItem = img_0.get_frame(z, t, c)
+        return specificItem
 
     def get_rgb_array (self, image):
         # Convert the image to RGB format

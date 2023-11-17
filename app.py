@@ -21,34 +21,39 @@ color = 0
 # min_col = 290
 # max_col = 300
 
-min_row = 100
+min_row = 148
 max_row = 150
-min_col = 220
+min_col = 318
 max_col = 320
 
 all_area_avg_of_all_frames = lifDelta.get_all_area_avg_of_all_frames(width, height, color, min_row, min_col, max_row, max_col)
 print('all_area_len', len(all_area_avg_of_all_frames))
-normalized_all_area_avg_of_all_frames = lifDelta.get_normalized_all_area_avg_of_all_frames(all_area_avg_of_all_frames, 3, 1.360)
-print('normalized_area_len', len(normalized_all_area_avg_of_all_frames))
+lifFileReader.write_to_file(all_area_avg_of_all_frames, 'all_area_avg_of_all_frames')
+# normalized_all_area_avg_of_all_frames = lifDelta.get_normalized_all_area_avg_of_all_frames(all_area_avg_of_all_frames, 3, 1.360)
+# print('normalized_area_len', len(normalized_all_area_avg_of_all_frames))
 
 
-# Create a drawing object
-draw = ImageDraw.Draw(specific_item_image)
-for i, item in enumerate(normalized_all_area_avg_of_all_frames):
-    x_margin = ( width - 1 ) / 2
-    y_margin = ( height - 1 ) / 2
 
-    left = (item['col'] - x_margin)
-    right = (item['col'] + x_margin)
-    top = (item['row'] - y_margin)
-    bottom = (item['row'] + y_margin)
 
-    # Draw a rectangle with a red border
-    draw.rectangle((left, top, right, bottom), outline='red', width=1)
-#     print("Index:", i, "item->row:", item['row'], "item->col:", item['col'])
+# # Create a drawing object
+# draw = ImageDraw.Draw(specific_item_image)
+# for i, item in enumerate(normalized_all_area_avg_of_all_frames):
+#     x_margin = ( width - 1 ) / 2
+#     y_margin = ( height - 1 ) / 2
+#
+#     left = (item['col'] - x_margin)
+#     right = (item['col'] + x_margin)
+#     top = (item['row'] - y_margin)
+#     bottom = (item['row'] + y_margin)
+#
+#     # Draw a rectangle with a red border
+#     draw.rectangle((left, top, right, bottom), outline='red', width=1)
+# #     print("Index:", i, "item->row:", item['row'], "item->col:", item['col'])
+#
+# # Show the image
+# specific_item_image.show()
 
-# Show the image
-specific_item_image.show()
+
 
 
 

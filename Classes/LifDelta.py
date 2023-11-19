@@ -8,8 +8,6 @@ class LifDelta:
         self.cols_len = len(self.array_data[0]['image'][0])
         self.time_len = len(self.array_data)
 
-
-
     def get_all_area_avg_of_all_frames (self, width = 1, height = 1, color = 0, min_row = 0, min_col = 0, max_row = 512, max_col = 512):
         area_avg_array = []
 
@@ -18,30 +16,37 @@ class LifDelta:
         current_step = 0
         min_step = 65000
         max_step = 65010
-        for row_index in range(self.rows_len):
-            if row_index < min_row:
-                continue
-            if row_index > max_row:
-                break
-            for col_index in range(self.cols_len):
-                if col_index < min_col:
+
+#         # Call the function to process the data with a progress bar
+#         progress_bar = tqdm(total=all_steps, desc="Processing data")
+
+        with tqdm(total=all_steps, desc="Processing data", leave=True) as progress_bar:
+            for row_index in range(self.rows_len):
+                if row_index < min_row:
                     continue
-                if col_index > max_col:
+                if row_index > max_row:
                     break
+                for col_index in range(self.cols_len):
+                    if col_index < min_col:
+                        continue
+                    if col_index > max_col:
+                        break
 
-                current_step = current_step + 1
-                tqdm.write(str(current_step) + " of " + str(all_steps) + " row: " + str(row_index) + " col: " + str(col_index))
+                    current_step = current_step + 1
+                    progress_bar.update(1)
+    #                 tqdm.write(str(current_step) + " of " + str(all_steps) + " row: " + str(row_index) + " col: " + str(col_index))
 
 
-                area_avg_of_all_frames = self.get_area_avg_of_all_frames(row_index, col_index, width, height, color)
-                if len(area_avg_of_all_frames) > 0:
-                    area_avg_array.append({
-                        "row": row_index,
-                        "col": col_index,
-                        "area_avg_of_all_frames": area_avg_of_all_frames
-                    })
+                    area_avg_of_all_frames = self.get_area_avg_of_all_frames(row_index, col_index, width, height, color)
+                    if len(area_avg_of_all_frames) > 0:
+                        area_avg_array.append({
+                            "row": row_index,
+                            "col": col_index,
+                            "area_avg_of_all_frames": area_avg_of_all_frames
+                        })
 
-        return area_avg_array
+            progress_bar.close()
+            return area_avg_array
 
     def get_area_avg_of_all_frames (self, row = 0, col = 0, width = 1, height = 1, color = 0):
         avg_array = []
@@ -80,7 +85,7 @@ class LifDelta:
     def get_list_index_by_range (self, target, range):
         range_margin = self.get_margin(range)
         start_range_range = target - range_margin
-        end_range_range = target + range_margin + 1
+        end_range_range = target + range_margin
 
         return self.get_range_list(int(start_range_range), int(end_range_range))
 
@@ -98,8 +103,8 @@ class LifDelta:
             return False
 
         # check end of list
-        remain_to_end_of_array = (target_index + 1) - array_len
-        if remain_to_end_of_array > margin:
+        remain_to_end_of_array = array_len - target_index
+        if remain_to_end_of_array < margin:
             return False
 
         return True
@@ -132,12 +137,9 @@ class LifDelta:
         area_avg_array_sum = sum(area_avg_array)
         average_of_area_avg_array = area_avg_array_sum / area_avg_array_len
         is_normalized = False
-#         print('average_of_area_avg_array', average_of_area_avg_array)
-#         print('average_of_area_avg_array * delta_range', average_of_area_avg_array * delta_range)
         for time, avg in enumerate(range(area_avg_array_len)):
             sliced_area_avg_array = area_avg_array[time:(time+time_range)]
             average_of_sliced_array = sum(sliced_area_avg_array) / len(sliced_area_avg_array)
-#             print('average_of_sliced_array', average_of_sliced_array)
 
             if average_of_sliced_array > average_of_area_avg_array * delta_range:
                 is_normalized = True

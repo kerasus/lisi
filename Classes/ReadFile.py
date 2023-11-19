@@ -75,7 +75,7 @@ class LifFileReader:
         with open(self.cached_directory + file_name + ".json", "w") as f:
             f.write(json_data)
 
-    def read_from_file (self, data, file_name):
+    def read_from_file (self, file_name):
         # Read JSON data from a file
         with open(self.cached_directory + file_name + ".json", "r") as f:
             json_data = f.read()

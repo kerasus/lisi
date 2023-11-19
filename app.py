@@ -4,6 +4,19 @@ from PIL import Image, ImageDraw
 from Classes.LifDelta import LifDelta
 from Classes.ReadFile import LifFileReader
 
+
+# from tqdm import tqdm
+# import time
+#
+# # Call the function to process the data with a progress bar
+# with tqdm(total=10, desc="Processing data") as progress_bar:
+#     for i in range(10):
+#         # Do some processing
+#         time.sleep(0.1)
+#         progress_bar.update(1)
+
+
+
 pile_path = '/home/ali/Downloads/Project001.lif'
 
 lifFileReader = LifFileReader(pile_path)
@@ -21,37 +34,39 @@ color = 0
 # min_col = 290
 # max_col = 300
 
-min_row = 148
-max_row = 150
-min_col = 318
-max_col = 320
+min_row = 0
+max_row = 511
+min_col = 0
+max_col = 511
 
 all_area_avg_of_all_frames = lifDelta.get_all_area_avg_of_all_frames(width, height, color, min_row, min_col, max_row, max_col)
+## read from cached file
+# all_area_avg_of_all_frames = lifFileReader.read_from_file('all_area_avg_of_all_frames')
+# lifFileReader.write_to_file(all_area_avg_of_all_frames, 'all_area_avg_of_all_frames')
 print('all_area_len', len(all_area_avg_of_all_frames))
-lifFileReader.write_to_file(all_area_avg_of_all_frames, 'all_area_avg_of_all_frames')
-# normalized_all_area_avg_of_all_frames = lifDelta.get_normalized_all_area_avg_of_all_frames(all_area_avg_of_all_frames, 3, 1.360)
-# print('normalized_area_len', len(normalized_all_area_avg_of_all_frames))
+normalized_all_area_avg_of_all_frames = lifDelta.get_normalized_all_area_avg_of_all_frames(all_area_avg_of_all_frames, 4, 1.3)
+print('normalized_area_len', len(normalized_all_area_avg_of_all_frames))
 
 
 
 
-# # Create a drawing object
-# draw = ImageDraw.Draw(specific_item_image)
-# for i, item in enumerate(normalized_all_area_avg_of_all_frames):
-#     x_margin = ( width - 1 ) / 2
-#     y_margin = ( height - 1 ) / 2
-#
-#     left = (item['col'] - x_margin)
-#     right = (item['col'] + x_margin)
-#     top = (item['row'] - y_margin)
-#     bottom = (item['row'] + y_margin)
-#
-#     # Draw a rectangle with a red border
-#     draw.rectangle((left, top, right, bottom), outline='red', width=1)
-# #     print("Index:", i, "item->row:", item['row'], "item->col:", item['col'])
-#
-# # Show the image
-# specific_item_image.show()
+# Create a drawing object
+draw = ImageDraw.Draw(specific_item_image)
+for i, item in enumerate(normalized_all_area_avg_of_all_frames):
+    x_margin = ( width - 1 ) / 2
+    y_margin = ( height - 1 ) / 2
+
+    left = (item['col'] - x_margin)
+    right = (item['col'] + x_margin)
+    top = (item['row'] - y_margin)
+    bottom = (item['row'] + y_margin)
+
+    # Draw a rectangle with a red border
+    draw.rectangle((left, top, right, bottom), outline='red', width=1)
+#     print("Index:", i, "item->row:", item['row'], "item->col:", item['col'])
+
+# Show the image
+specific_item_image.show()
 
 
 

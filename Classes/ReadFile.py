@@ -9,10 +9,10 @@ class LifFileReader:
         self.file_path = file_path
         self.cached_directory = './cached_data/'
 
-    def get_array_data (self):
+    def get_array_data (self, image_number):
         new = LifFile(self.file_path)
         # Access a specific image directly
-        img_0 = new.get_image(0) # 0 - 1
+        target_image = new.get_image(image_number) # 0 - 1
 
         # # Create a list of images using a generator
         # img_list = [i for i in new.get_iter_image()]
@@ -21,16 +21,16 @@ class LifFileReader:
         # # z -> 0
         # # t -> 0, 171
         # # c -> 0, 1, 2
-#         specificItem = img_0.get_frame(z=0, t=0, c=0)
+#         specificItem = target_image.get_frame(z=0, t=0, c=0)
 #         specificItem.show()
         # # Iterate over different items
-#         frame_list   = [i for i in img_0.get_iter_t(c=0, z=0)]
-        frame_list   = [{'image':self.get_rgb_array(x), 'frame':i} for i,x in enumerate(img_0.get_iter_t(c=0, z=0))]
+#         frame_list   = [i for i in target_image.get_iter_t(c=0, z=0)]
+        frame_list   = [{'image':self.get_rgb_array(frame), 'frame':i} for i,frame in enumerate(target_image.get_iter_t(c=0, z=0))]
 #         frame_list_len = len(frame_list)
 #         images_array = []
 
-        # z_list       = [i for i in img_0.get_iter_z(t=0, c=0)]
-        # channel_list = [i for i in img_0.get_iter_c(t=0, z=0)]
+        # z_list       = [i for i in target_image.get_iter_z(t=0, c=0)]
+        # channel_list = [i for i in target_image.get_iter_c(t=0, z=0)]
 
         # # specificItem.show()
         # # frame_list[1].show()
@@ -44,12 +44,12 @@ class LifFileReader:
     def get_specific_item_image (self, z=0, t=0, c=0):
         new = LifFile(self.file_path)
         # Access a specific image directly
-        img_0 = new.get_image(0) # 0 - 1
+        target_image = new.get_image(0) # 0 - 1
         # # Access a specific item
         # # z -> 0
         # # t -> 0, 171
         # # c -> 0, 1, 2
-        specificItem = img_0.get_frame(z, t, c)
+        specificItem = target_image.get_frame(z, t, c)
         return specificItem
 
     def get_rgb_array (self, image):

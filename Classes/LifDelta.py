@@ -8,14 +8,11 @@ class LifDelta:
         self.cols_len = len(self.array_data[0]['image'][0])
         self.time_len = len(self.array_data)
 
-    def get_all_area_avg_of_all_frames (self, width = 1, height = 1, color = 0, min_row = 0, min_col = 0, max_row = 512, max_col = 512):
+    def get_all_area_avg_of_all_frames (self, width = 1, height = 1, color = 0, min_row = 0, min_col = 0, max_row = 511, max_col = 511):
         area_avg_array = []
 
-        time_len = self.time_len
         all_steps = (max_row - min_row + 1) * (max_col - min_col + 1)
         current_step = 0
-        min_step = 65000
-        max_step = 65010
 
 #         # Call the function to process the data with a progress bar
 #         progress_bar = tqdm(total=all_steps, desc="Processing data")

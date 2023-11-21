@@ -1,27 +1,12 @@
-import numpy as np
-import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
 from Classes.LifDelta import LifDelta
 from Classes.ReadFile import LifFileReader
 
+file_path = '/home/ali/Downloads/Project001.lif'
 
-# from tqdm import tqdm
-# import time
-#
-# # Call the function to process the data with a progress bar
-# with tqdm(total=10, desc="Processing data") as progress_bar:
-#     for i in range(10):
-#         # Do some processing
-#         time.sleep(0.1)
-#         progress_bar.update(1)
+lifFileReader = LifFileReader(file_path)
 
-
-
-pile_path = '/home/ali/Downloads/Project001.lif'
-
-lifFileReader = LifFileReader(pile_path)
-
-array_data = lifFileReader.get_array_data()
+array_data = lifFileReader.get_array_data(0)
 specific_item_image = lifFileReader.get_specific_item_image(0, 0, 0)
 
 lifDelta = LifDelta(array_data)
@@ -42,7 +27,7 @@ max_col = 511
 all_area_avg_of_all_frames = lifDelta.get_all_area_avg_of_all_frames(width, height, color, min_row, min_col, max_row, max_col)
 ## read from cached file
 # all_area_avg_of_all_frames = lifFileReader.read_from_file('all_area_avg_of_all_frames')
-# lifFileReader.write_to_file(all_area_avg_of_all_frames, 'all_area_avg_of_all_frames')
+lifFileReader.write_to_file(all_area_avg_of_all_frames, 'all_area_avg_of_all_frames')
 print('all_area_len', len(all_area_avg_of_all_frames))
 normalized_all_area_avg_of_all_frames = lifDelta.get_normalized_all_area_avg_of_all_frames(all_area_avg_of_all_frames, 4, 1.3)
 print('normalized_area_len', len(normalized_all_area_avg_of_all_frames))
